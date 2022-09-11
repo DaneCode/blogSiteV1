@@ -58,7 +58,8 @@
     background-color: rgba(0, 136, 169, 0.8);
 }
 .header {
-    background-color: #e2eaec;
+    background-color: #cce6e6;
+    border-radius: 5px;
     padding-top: 0;
     height: 120px;
 }
@@ -67,7 +68,19 @@
     justify-content: center;
     margin-top: 2%;
 }
-.postTitle {
-    width: 50%;
-    border-radius: 2px solid;
+.composeTitle {
+    margin-left: 10%;
 }
+.input {
+    font-size: 16px;
+    font-size: max(16px, 1em);
+    font-family: inherit;
+    padding: 0.25em 0.5em;
+    background-color: #cce6e6;
+    border: 2px solid var(--input-border);
+    border-radius: 4px;
+    width: 95%;
+  }
+  .marginLeft-10 {
+    margin-left: 10%;
+  }

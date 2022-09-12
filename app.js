@@ -2,7 +2,7 @@ const express = require("express");
 const https = require("https");
 const ejs = require("ejs");
 const app = express();
-
+const posts = []
 app.use(express.urlencoded({
   extended: true
 }));
@@ -26,11 +26,13 @@ app.get("/compose", function(req,res){
 })
 
 app.post("/", function(req,res){
-  const myPosts = new Object();
-  myPosts.title = req.body.postTitle;
-  myPosts.content = req.body.postContent;
-  console.log(myPosts['content']);
-  
+  const myPost = {};
+  myPost.title = req.body.postTitle;
+  myPost.content = req.body.postContent;
+  posts.push(myPost)
+  // console.log(myPost['content']);
+  console.log(posts)
+  res.redirect("/")
 });
 
 app.listen(3000, function(req,res){

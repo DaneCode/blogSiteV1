@@ -2,7 +2,7 @@ const express = require("express");
 const https = require("https");
 const ejs = require("ejs");
 const app = express();
-const posts = []
+let posts = [];
 app.use(express.urlencoded({
   extended: true
 }));
@@ -10,7 +10,8 @@ app.use(express.static(__dirname + '/public'));
 app.set("view engine", "ejs");
 
 app.get("/", function(req,res){
-  res.render("home", {homeContent:homeStartingContent});
+  res.render("home", {homeContent:homeStartingContent, posts:posts});
+
 });
 
 app.get("/about", function(req,res){
@@ -26,12 +27,11 @@ app.get("/compose", function(req,res){
 })
 
 app.post("/", function(req,res){
-  const myPost = {};
-  myPost.title = req.body.postTitle;
-  myPost.content = req.body.postContent;
+  const myPost = {
+    title: req.body.postTitle,
+    content: req.body.postContent
+  };
   posts.push(myPost)
-  // console.log(myPost['content']);
-  console.log(posts)
   res.redirect("/")
 });
 

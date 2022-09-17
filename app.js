@@ -9,24 +9,24 @@ app.use(express.urlencoded({
 app.use(express.static(__dirname + '/public'));
 app.set("view engine", "ejs");
 
-app.get("/", function(req,res){
+app.get("/", (req,res) => {
   res.render("home", {homeContent:homeStartingContent, posts:posts});
 
 });
 
-app.get("/about", function(req,res){
+app.get("/about", (req,res) => {
   res.render("about", {aboutContent:aboutContent});
 })
 
-app.get("/contact", function(req,res){
+app.get("/contact", (req,res) => {
   res.render("contact", {contactContent:contactContent})
 })
 
-app.get("/compose", function(req,res){
+app.get("/compose", (req,res) => {
   res.render("compose")
 })
 
-app.post("/", function(req,res){
+app.post("/", (req,res) => {
   const myPost = {
     title: req.body.postTitle,
     content: req.body.postContent

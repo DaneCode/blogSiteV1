@@ -3,6 +3,7 @@ const https = require("https");
 const ejs = require("ejs");
 const app = express();
 let posts = [];
+
 app.use(express.urlencoded({
   extended: true
 }));
@@ -11,6 +12,7 @@ app.set("view engine", "ejs");
 
 app.get("/", (req,res) => {
   res.render("home", {homeContent:homeStartingContent, posts:posts});
+
 
 });
 
@@ -24,6 +26,14 @@ app.get("/contact", (req,res) => {
 
 app.get("/compose", (req,res) => {
   res.render("compose")
+})
+
+app.get("/posts/:postName", (req,res) => {
+  posts.forEach(function (post) {
+    if (req.params.postName.toLowerCase() === post.title.toLowerCase().replace(/\s+/g, '-')){
+      res.render("post", {postTitle:post.title, postContent:post.content})
+    }
+  }) 
 })
 
 app.post("/", (req,res) => {

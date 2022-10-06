@@ -1,19 +1,41 @@
 const express = require("express");
 const https = require("https");
 const ejs = require("ejs");
+const dotenv = require("dotenv").config();
+const mongoose = require("mongoose");
 const app = express();
 let posts = [];
 
 app.use(express.urlencoded({
   extended: true
 }));
+
 app.use(express.static(__dirname + '/public'));
 app.set("view engine", "ejs");
 
+// Environmental Variables
+PASSWORD = process.env.PASSWORD
+URL = process.env.URL
+PORT = process.env.PORT
+
+// Connect to mongodb server with Mongoose
+mongoose.connect("mongodb+srv://admin-dane:"+PASSWORD+"@"+URL);
+
+// Database Schema
+const postSchema = {
+  title: String,
+  content: String
+};
+
+// Mongoose Model
+const Post = mongoose.model("Post", postSchema);
+
+// Routing
+
 app.get("/", (req,res) => {
-  res.render("home", {homeContent:homeStartingContent, posts:posts});
-
-
+  Post.find({}, (err,foundItems) => {
+    res.render("home", {homeContent:homeStartingContent, posts:foundItems});
+  });
 });
 
 app.get("/about", (req,res) => {
@@ -33,16 +55,17 @@ app.get("/posts/:postName", (req,res) => {
     if (req.params.postName.toLowerCase() === post.title.toLowerCase().replace(/\s+/g, '-')){
       res.render("post", {postTitle:post.title, postContent:post.content})
     }
-  }) 
+  })
 })
 
 app.post("/", (req,res) => {
-  const myPost = {
-    title: req.body.postTitle,
-    content: req.body.postContent
-  };
-  posts.push(myPost)
-  res.redirect("/")
+  postTitle = req.body.postTitle;
+  postContent = req.body.postContent;
+  const post = new Post({
+    title: postTitle,
+    content: postContent
+  });
+post.save()
 });
 
 app.listen(3000, function(req,res){
